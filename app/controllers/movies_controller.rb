@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-    sort_column = %w[title rating].
+    sort_column = %w[title release_date].
     include?(params[:sort])? params[:sort] : "title"
     @movies = Movie.order(sort_column)
     @th_class = {sort_column => "hilite"}
