@@ -4,8 +4,8 @@
 %table#movies
   %thead
     %tr
-      %th Movie Title
-      %th Rating
+      %th{:class => @th_class["title"]}= link_to 'Movie Title', {:sort => "title"}
+      %th{:class => @th_class["rating"]}= link_to 'Rating', {:sort => "rating"}, {:class => "hilite"}
       %th Release Date
       %th More Info
   %tbody
