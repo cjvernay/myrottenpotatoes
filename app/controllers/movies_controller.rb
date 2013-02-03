@@ -7,9 +7,21 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @saved_selections = session[:saved_selections]? session[:saved_selections] : Movie.saved_selections()
+
+    @all_ratings = Movie.all_ratings()
     sort_column = %w[title release_date].
-    include?(params[:sort])? params[:sort] : "title"
-    @movies = Movie.order(sort_column)
+    include?(params[:sort])? params[:sort] : @saved_selections[:sort]
+    @saved_selections[:sort] = sort_column
+
+    where_params =  params[:ratings]? params[:ratings] : @saved_selections[:ratings]
+
+    @movies = Movie.order(sort_column).
+    where(["rating IN (?)", where_params.keys])
+    @saved_selections[:ratings] = where_params
+
+    session[:saved_selections] = @saved_selections
+
     @th_class = {sort_column => "hilite"}
   end
 
