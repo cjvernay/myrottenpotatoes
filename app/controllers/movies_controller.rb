@@ -23,6 +23,11 @@ class MoviesController < ApplicationController
     session[:saved_selections] = @saved_selections
 
     @th_class = {sort_column => "hilite"}
+
+    if !params[:sort] || !params[:ratings] 
+      flash.keep
+      redirect_to movies_path (@saved_selections)
+    end
   end
 
   def new
